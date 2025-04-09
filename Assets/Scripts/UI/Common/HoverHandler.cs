@@ -22,16 +22,22 @@ namespace UI.Common
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            IsHovered = true;
-            OnHover?.Invoke(true);
-            SetStateHover(true);
+            if (!IsHovered)
+            {
+                IsHovered = true;
+                OnHover?.Invoke(true);
+                SetStateHover(true);
+            }
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            IsHovered = false;
-            OnHover?.Invoke(false);
-            SetStateHover(false);
+            if (!RectTransformUtility.RectangleContainsScreenPoint(GetComponent<RectTransform>(), eventData.position))
+            {
+                IsHovered = false;
+                OnHover?.Invoke(false);
+                SetStateHover(false);
+            }
         }
 
         private void SetStateHover(bool isHover)
